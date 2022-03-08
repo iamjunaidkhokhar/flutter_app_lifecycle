@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'lifecycle.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // FlutterBranchSdk.validateSDKIntegration();
   runApp(const MyApp());
 }
 
@@ -14,6 +18,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Counter counter = Counter();
+  Color backgroundColor = Colors.white;
+
+  void listenDynamicLinks() async {
+    FlutterBranchSdk.initSession().listen((data) {
+      print('listenDynamicLinks - DeepLink Data: $data');
+      if (data['key'] == 'open page') {
+        setState(() {
+          backgroundColor = Colors.black;
+        });
+      }
+    }, onError: (error) {
+      PlatformException platformException = error as PlatformException;
+      print(
+          'InitSession error: ${platformException.code} - ${platformException.message}');
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+
+    listenDynamicLinks();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +51,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: AppLifeCycle(
         child: Scaffold(
+          backgroundColor: backgroundColor,
           body: const Center(
             child: Text('Your Counter value is in console'),
           ),
