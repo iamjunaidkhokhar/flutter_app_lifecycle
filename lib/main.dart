@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-
 import 'lifecycle.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Counter counter = Counter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,12 +23,13 @@ class MyApp extends StatelessWidget {
       ),
       home: AppLifeCycle(
         child: Scaffold(
-          body: Center(
-            child: Text('Your Counter value is ${Counter().value}'),
+          body: const Center(
+            child: Text('Your Counter value is in console'),
           ),
           floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Counter().increment();
+                print(counter.value);
+                counter.increment();
               },
               child: const Icon(Icons.add)),
         ),

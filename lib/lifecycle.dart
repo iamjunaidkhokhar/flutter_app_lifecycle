@@ -1,7 +1,5 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 
 class AppLifeCycle extends StatefulWidget {
   final Widget child;
@@ -12,7 +10,8 @@ class AppLifeCycle extends StatefulWidget {
   _AppLifeCycleState createState() => _AppLifeCycleState();
 }
 
-class _AppLifeCycleState extends State<AppLifeCycle> with WidgetsBindingObserver {
+class _AppLifeCycleState extends State<AppLifeCycle>
+    with WidgetsBindingObserver {
   late DateTime _startTime;
 
   @override
